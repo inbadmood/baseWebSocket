@@ -1,0 +1,37 @@
+connectionTimeOut: 1800 #alive sec
+#mysql
+mysql:
+    idleConns: 10
+    openConns: 100
+    setting:
+        master:
+            dbName: setting
+            host: mysql
+            port: 3306
+            user: root
+            password: 1qaz2wsx
+        slave:
+            dbName: setting
+            host: mysql
+            port: 3306
+            user: root
+            password: 1qaz2wsx
+#redis
+redis:
+    ConnectTimeout: 20000
+    ReadTimeout: 20000
+    WriteTimeout: 20000
+    minIdle: 100
+    maxActive: 200
+    subscribeIdle: 20
+    subscribeActive: 200
+    cronIdle: 20
+    cronActive: 200
+    setting:
+        master:
+            host: 127.0.0.1
+            port: 6379
+            index: 4
+            IdleTimeout: 10
+            authPassword : true
+            password: 1qaz2wsx
