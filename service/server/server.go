@@ -1,8 +1,9 @@
 package server
 
 import (
-	"BaseWebSocket/models"
-	"BaseWebSocket/router"
+	"BaseWebSocket/domain/authenticate/delivery"
+	_authenticationRepo "BaseWebSocket/domain/authenticate/repository"
+	_authenticationUseCase "BaseWebSocket/domain/authenticate/usecase"
 	"BaseWebSocket/service/server/client"
 	"BaseWebSocket/service/server/lib"
 	"BaseWebSocket/utils"
@@ -17,23 +18,18 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	_authenticationRepo "BaseWebSocket/process/authentication/repository"
-	_authenticationUseCase "BaseWebSocket/process/authentication/usecase"
-
 	"github.com/spf13/viper"
 )
 
 var usableClientID uint32
 var usableClientIDLock sync.Mutex
 
-var apiController *lib.ApiRouter
+var authenticationDelivery *lib.ApiRouter
 var connectionTimeOut time.Duration
 
 var serverConfig *viper.Viper
 
 var globalHub *client.Hub
-
-var coreUseCase models.CoreUseCase
 
 // 取得client ID
 func getUsableClientID() uint32 {
@@ -72,15 +68,13 @@ func NewDeliverServer() *DeliverServer {
 	authenticRedisRepo := _authenticationRepo.NewRedisRepository(settingRedisConn)
 	authenticUseCase := _authenticationUseCase.NewAuthUseCase(authenticRedisRepo)
 
-	coreUseCase.AuthenticUseCase = &authenticUseCase
-
-	apiController = router.NewApiRouter(coreUseCase)
+	authenticationDelivery = delivery.NewRouter(authenticUseCase)
 	handler := &DeliverServer{}
 
 	globalHub = client.NewHub()
 	go globalHub.Run()
 
-	lib.ApiControllerInit(apiController)
+	lib.ApiControllerInit(authenticationDelivery)
 
 	return handler
 }

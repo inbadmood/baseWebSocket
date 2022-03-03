@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"BaseWebSocket/models"
+	"BaseWebSocket/entities/models"
 	"encoding/json"
 )
 

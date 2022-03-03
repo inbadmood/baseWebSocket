@@ -1,7 +1,7 @@
 package lib
 
 import (
-	"BaseWebSocket/models"
+	"BaseWebSocket/entities/models"
 	"BaseWebSocket/service/server/client"
 	"BaseWebSocket/utils"
 	"encoding/json"
